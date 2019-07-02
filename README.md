@@ -1,1 +1,2 @@
 # lv_gui_designer
+一个基于LittlevGL的LittlevGL界面的拖拽式设计工具，底层参照官方的PC_Simulator.
