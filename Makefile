@@ -1,14 +1,11 @@
 #
 # Makefile
 #
-CC = gcc
-CFLAGS = -Wall -Wshadow -Wundef -Wmaybe-uninitialized -fbounds-check
-
-LVGL_DIR = ${shell pwd}
-
-CFLAGS += -O3 -g3 -I$(LVGL_DIR)/
-LDFLAGS += -lSDL2 -lm
-BIN = lv_gui_designer
+CC ?= gcc
+LVGL_DIR ?= ${shell pwd}
+CFLAGS ?= -Wall -Wshadow -Wundef -Wmaybe-uninitialized -O3 -g0 -I$(LVGL_DIR)/
+LDFLAGS ?= -lSDL2 -lm
+BIN = demo
 
 
 #Collect the files to compile
