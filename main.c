@@ -39,7 +39,7 @@
  **********************/
 static void hal_init(void);
 static int tick_thread(void * data);
-// static void memory_monitor(lv_task_t * param);
+static void memory_monitor(lv_task_t * param);
 
 /**********************
  *  STATIC VARIABLES
@@ -109,8 +109,8 @@ static void hal_init(void)
 
     /*Create a display buffer*/
     static lv_disp_buf_t disp_buf1;
-    static lv_color_t buf1_1[480*400];
-    lv_disp_buf_init(&disp_buf1, buf1_1, NULL, 480*400);
+    static lv_color_t buf1_1[3840*2160];
+    lv_disp_buf_init(&disp_buf1, buf1_1, NULL, 3840*2160);
 
     /*Create a display*/
     lv_disp_drv_t disp_drv;
@@ -141,7 +141,7 @@ static void hal_init(void)
 
     /* Optional:
      * Create a memory monitor task which prints the memory usage in periodically.*/
-    // lv_task_create(memory_monitor, 3000, LV_TASK_PRIO_MID, NULL);
+    lv_task_create(memory_monitor, 3000, LV_TASK_PRIO_MID, NULL);
 }
 
 /**
@@ -165,15 +165,15 @@ static int tick_thread(void * data)
  * Print the memory usage periodically
  * @param param
  */
-// static void memory_monitor(lv_task_t * param)
-// {
-//     (void) param; /*Unused*/
+static void memory_monitor(lv_task_t * param)
+{
+    (void) param; /*Unused*/
 
-//     lv_mem_monitor_t mon;
-//     lv_mem_monitor(&mon);
-//     printf("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n", (int)mon.total_size - mon.free_size,
-//             mon.used_pct,
-//             mon.frag_pct,
-//             (int)mon.free_biggest_size);
+    lv_mem_monitor_t mon;
+    lv_mem_monitor(&mon);
+    printf("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n", (int)mon.total_size - mon.free_size,
+            mon.used_pct,
+            mon.frag_pct,
+            (int)mon.free_biggest_size);
 
-// }
+}

@@ -18,12 +18,20 @@ static widget_stack_t * wstack = NULL;
 void wstack_push(lv_obj_t * new);
 lv_obj_t * wstack_pop(void);
 
+
 void tft_win_init(lv_obj_t * parent);
 void setting_win_init(lv_obj_t * parent);
 void toolbox_win_init(lv_obj_t * parent);
-static void btn_cb(lv_obj_t * btn, lv_event_t ev);
-static void update(lv_obj_t * obj, lv_event_t ev);
-static void chb_cb(lv_obj_t * btn, lv_event_t ev);
+
+static void create_btn_cb(lv_obj_t * btn, lv_event_t ev);
+static void create_chb_cb(lv_obj_t * btn, lv_event_t ev);
+static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev);
+static void create_bar_cb(lv_obj_t * obj, lv_event_t ev);
+static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev);
+static void create_led_cb(lv_obj_t * obj, lv_event_t ev);
+static void create_line_cb(lv_obj_t * obj, lv_event_t ev);
+
+static void update_setting(lv_obj_t * obj, lv_event_t ev);
 static void create_undo(lv_obj_t * obj, lv_event_t ev);
 
 void lv_gui_designer()
@@ -48,8 +56,6 @@ void tft_win_init(lv_obj_t * parent)
     lv_win_set_drag(tft_win, true);
     lv_obj_set_size(tft_win, 480, 320);
     lv_obj_align(tft_win, NULL, LV_ALIGN_CENTER, 0, 0);
-
-    // lv_obj_set_drag(lv_btn_create(tft_win, NULL), true);
 }
 
 void toolbox_win_init(lv_obj_t * parent)
@@ -65,19 +71,31 @@ void toolbox_win_init(lv_obj_t * parent)
     lv_list_set_sb_mode(list, LV_SB_MODE_AUTO);
     lv_obj_t * list_btn;
 
-    list_btn = lv_list_add_btn(list, LV_SYMBOL_CLOSE,  "CLEAN UP");
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_CLOSE,  "UNDO");
     lv_obj_set_event_cb(list_btn, create_undo);
 
     list_btn = lv_list_add_btn(list, LV_SYMBOL_OK,  "Button");
-    lv_obj_set_event_cb(list_btn, btn_cb);
+    lv_obj_set_event_cb(list_btn, create_btn_cb);
  
-    // lv_list_add_btn(list, LV_SYMBOL_LIST, "Label");
+    
     list_btn = lv_list_add_btn(list, LV_SYMBOL_OK, "CheckBox");
-    lv_obj_set_event_cb(list_btn, chb_cb);
-    // lv_list_add_btn(list, LV_SYMBOL_LOOP, "GPS");
-    // lv_list_add_btn(list, LV_SYMBOL_EJECT, "Video");
-    // lv_list_add_btn(list, LV_SYMBOL_POWER, "Call");
-    // lv_list_add_btn(list, LV_SYMBOL_FILE, "Bell");
+    lv_obj_set_event_cb(list_btn, create_chb_cb);
+    
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_LIST, "DDList");
+    lv_obj_set_event_cb(list_btn, create_ddlist_cb);
+
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_BATTERY_2, "Bar");
+    lv_obj_set_event_cb(list_btn, create_bar_cb);
+
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_DRIVE, "Gauge");
+    lv_obj_set_event_cb(list_btn, create_gauge_cb);
+    
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_POWER, "Led");
+    lv_obj_set_event_cb(list_btn, create_led_cb);
+
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_PLUS, "Line");
+    lv_obj_set_event_cb(list_btn, create_line_cb);
+
     // lv_list_add_btn(list, LV_SYMBOL_EDIT, "File");
     // lv_list_add_btn(list, LV_SYMBOL_CHARGE, "Edit");
     // lv_list_add_btn(list, LV_SYMBOL_DIRECTORY,  "Cut");
@@ -96,7 +114,7 @@ void setting_win_init(lv_obj_t * parent)
     
 }
 
-static void btn_cb(lv_obj_t * obj, lv_event_t ev)
+static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
 {
     (void)obj;
     if(ev == LV_EVENT_CLICKED)
@@ -109,11 +127,11 @@ static void btn_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wstack_push(new);
         lv_obj_set_drag(new, true);
-        lv_obj_set_event_cb(new, update);
+        lv_obj_set_event_cb(new, update_setting);
     }
 }
 
-static void chb_cb(lv_obj_t * obj, lv_event_t ev)
+static void create_chb_cb(lv_obj_t * obj, lv_event_t ev)
 {
     (void)obj;
     if(ev == LV_EVENT_CLICKED)
@@ -125,16 +143,113 @@ static void chb_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wstack_push(new);
         lv_obj_set_drag(new, true);
-        lv_obj_set_event_cb(new, update);
+        lv_obj_set_event_cb(new, update_setting);
     }
 }
 
-static void update(lv_obj_t * obj, lv_event_t ev)
+static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_ddlist_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+        }
+        wstack_push(new);     
+        lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
+
+static void create_bar_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_bar_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+        }
+
+        lv_bar_set_anim_time(new, 10000);
+        lv_bar_set_value(new, 100, LV_ANIM_ON);
+        wstack_push(new);
+        lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
+
+static void create_led_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_led_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+        }
+        wstack_push(new);     
+        lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
+
+static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_gauge_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+        }
+
+        wstack_push(new);
+        lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
+
+static void create_line_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_line_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+            lv_point_t p[2] = {{LV_DPI, LV_DPI}, {LV_DPI + 10, LV_DPI + 10}};
+            lv_line_set_points(new, p, 2);
+        }
+        wstack_push(new);     
+        // lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
+
+
+
+static void update_setting(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_DRAG_END)
     {
         printf("X:%d Y:%d\n", lv_obj_get_x(obj), lv_obj_get_y(obj));
     }
+    // if(ev == LV_EVENT_LONG_PRESSED)
+    // {
+    //     lv_obj_set_hidden(obj, true);
+    //     lv_line_create(tft_win, NULL);
+    // }
+    // if(ev == LV_EVENT_PRESS_LOST)
+    // {
+        
+    // }
 }
 
 static void create_undo(lv_obj_t * obj, lv_event_t ev)
