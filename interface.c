@@ -30,6 +30,7 @@ static void create_bar_cb(lv_obj_t * obj, lv_event_t ev);
 static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev);
 static void create_led_cb(lv_obj_t * obj, lv_event_t ev);
 static void create_line_cb(lv_obj_t * obj, lv_event_t ev);
+static void create_slider_cb(lv_obj_t * obj, lv_event_t ev);
 
 static void update_setting(lv_obj_t * obj, lv_event_t ev);
 static void create_undo(lv_obj_t * obj, lv_event_t ev);
@@ -45,8 +46,8 @@ void lv_gui_designer()
     lv_theme_set_current(th);
      
     toolbox_win_init(screen);
-    tft_win_init(screen);
     setting_win_init(screen);
+    tft_win_init(screen); 
 }
 
 void tft_win_init(lv_obj_t * parent)
@@ -71,7 +72,7 @@ void toolbox_win_init(lv_obj_t * parent)
     lv_list_set_sb_mode(list, LV_SB_MODE_AUTO);
     lv_obj_t * list_btn;
 
-    list_btn = lv_list_add_btn(list, LV_SYMBOL_CLOSE,  "UNDO");
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_TRASH,  "UNDO");
     lv_obj_set_event_cb(list_btn, create_undo);
 
     list_btn = lv_list_add_btn(list, LV_SYMBOL_OK,  "Button");
@@ -84,7 +85,7 @@ void toolbox_win_init(lv_obj_t * parent)
     list_btn = lv_list_add_btn(list, LV_SYMBOL_LIST, "DDList");
     lv_obj_set_event_cb(list_btn, create_ddlist_cb);
 
-    list_btn = lv_list_add_btn(list, LV_SYMBOL_BATTERY_2, "Bar");
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_MINUS, "Bar");
     lv_obj_set_event_cb(list_btn, create_bar_cb);
 
     list_btn = lv_list_add_btn(list, LV_SYMBOL_DRIVE, "Gauge");
@@ -96,7 +97,8 @@ void toolbox_win_init(lv_obj_t * parent)
     list_btn = lv_list_add_btn(list, LV_SYMBOL_PLUS, "Line");
     lv_obj_set_event_cb(list_btn, create_line_cb);
 
-    // lv_list_add_btn(list, LV_SYMBOL_EDIT, "File");
+    list_btn = lv_list_add_btn(list, LV_SYMBOL_PLAY, "Slider");
+    lv_obj_set_event_cb(list_btn, create_slider_cb);
     // lv_list_add_btn(list, LV_SYMBOL_CHARGE, "Edit");
     // lv_list_add_btn(list, LV_SYMBOL_DIRECTORY,  "Cut");
     // lv_list_add_btn(list, LV_SYMBOL_COPY, "Copy");
@@ -111,6 +113,28 @@ void toolbox_win_init(lv_obj_t * parent)
 
 void setting_win_init(lv_obj_t * parent)
 {
+    setting_win = lv_win_create(parent, NULL);
+    lv_win_set_title(setting_win, "Setting");
+    lv_obj_set_size(setting_win, lv_obj_get_width_fit(parent) / 4.5 , lv_obj_get_height(parent));
+
+    lv_obj_align(setting_win, NULL, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+
+
+    lv_obj_t * lb = lv_label_create(setting_win, NULL);
+    lv_label_set_text(lb, "Pos X:");
+    lv_obj_t * ta = lv_ta_create(setting_win, NULL);
+    lv_ta_set_one_line(ta, true);
+    lv_obj_align(ta, lb, LV_ALIGN_OUT_RIGHT_MID, 0, 0);
+    lv_obj_t * lb_plus = lv_label_create(ta, NULL);
+    lv_label_set_text(lb_plus, LV_SYMBOL_PLUS);
+    lv_obj_align(lb_plus, ta, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+    lv_obj_set_click(lb_plus, true);
+    // lv_obj_set_event_cb(lb_plus, create_btn_cb);
+    lv_obj_t * lb_minus = lv_label_create(ta, lb_plus);
+    lv_label_set_text(lb_minus, LV_SYMBOL_MINUS" ");
+    lv_obj_align(lb_minus, lb_plus, LV_ALIGN_OUT_LEFT_MID, 0, 0);
+    lv_obj_set_click(lb_minus, true);
+    // lv_obj_set_event_cb(lb_minus, create_btn_cb);
     
 }
 
@@ -159,6 +183,9 @@ static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wstack_push(new);     
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
+        lv_obj_t * scrl = lv_page_get_scrl(new);
+        lv_obj_set_drag_parent(scrl, true);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -228,11 +255,26 @@ static void create_line_cb(lv_obj_t * obj, lv_event_t ev)
             lv_line_set_points(new, p, 2);
         }
         wstack_push(new);     
-        // lv_obj_set_drag(new, true);
+        lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
 
+static void create_slider_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    (void)obj;
+    if(ev == LV_EVENT_CLICKED)
+    {
+        lv_obj_t * new = lv_slider_create(tft_win, NULL);
+        if(wstack != NULL)
+        {
+            lv_obj_set_pos(new, lv_obj_get_x(wstack->widget) + 10, lv_obj_get_y(wstack->widget) + 10);
+        }
+        wstack_push(new);     
+        lv_obj_set_drag(new, true);
+        lv_obj_set_event_cb(new, update_setting);
+    }
+}
 
 
 static void update_setting(lv_obj_t * obj, lv_event_t ev)
