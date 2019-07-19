@@ -1,10 +1,10 @@
 /**
- * @interface .h
+ * @file .h
  *
  */
 
-#ifndef _INTERFACE_H_
-#define _INTERFACE_H_
+#ifndef _DATASET_H_
+#define _DATASET_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,8 +37,9 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
-
-void lv_gui_designer(void);
+void wstack_push(lv_obj_t * new);
+lv_obj_t * wstack_pop(void);
+lv_obj_t * wstack_top(void);
 
 /**********************
  *      MACROS
@@ -51,9 +52,4 @@ void lv_gui_designer(void);
 } /* extern "C" */
 #endif
 
-#endif /* _INTERFACE_H_ */
-
-
-
-
-
+#endif /* _H */

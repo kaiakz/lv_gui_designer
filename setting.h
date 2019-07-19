@@ -1,10 +1,10 @@
 /**
- * @interface .h
+ * @file toolbox.h
  *
  */
 
-#ifndef _INTERFACE_H_
-#define _INTERFACE_H_
+#ifndef _TOOLBOX_H_
+#define _TOOLBOX_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,7 +22,6 @@ extern "C" {
 #include "./lv_ex_conf.h"
 #endif
 
-// #if USE_LV_
 
 
 /*********************
@@ -33,27 +32,19 @@ extern "C" {
  *      TYPEDEFS
  **********************/
 
-
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
 
-void lv_gui_designer(void);
+void setting_win_init(lv_obj_t * parent);
 
 /**********************
  *      MACROS
  **********************/
 
 
-// #endif /*USE_LV_*/
-
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
-#endif /* _INTERFACE_H_ */
-
-
-
-
-
+#endif

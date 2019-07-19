@@ -1,10 +1,10 @@
 /**
- * @interface .h
+ * @file gencode.h
  *
  */
 
-#ifndef _INTERFACE_H_
-#define _INTERFACE_H_
+#ifndef _GENCODE_H_
+#define _GENCODE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,7 +22,6 @@ extern "C" {
 #include "./lv_ex_conf.h"
 #endif
 
-// #if USE_LV_
 
 
 /*********************
@@ -33,27 +32,19 @@ extern "C" {
  *      TYPEDEFS
  **********************/
 
-
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
 
-void lv_gui_designer(void);
+void code_generation(void);
 
 /**********************
  *      MACROS
  **********************/
 
 
-// #endif /*USE_LV_*/
-
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
-#endif /* _INTERFACE_H_ */
-
-
-
-
-
+#endif
