@@ -166,7 +166,7 @@ static void getcode_cb(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        code_generation();
+        // code_generation();
     }
 }
 

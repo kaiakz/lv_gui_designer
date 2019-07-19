@@ -19,7 +19,7 @@
  **********************/
 typedef struct _widget_stack_t_{
     lv_obj_t * widget;
-    struct widget_stack * next;
+    struct _widget_stack_t_ * next;
 }widget_stack_t;
 
 typedef enum
