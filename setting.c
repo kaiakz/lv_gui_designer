@@ -18,9 +18,21 @@
 
 
 /**********************
- *      TYPEDEFS
+ *      EXTERN
  **********************/
 extern lv_obj_t * setting_win;
+/**********************
+ *      TYPEDEFS
+ **********************/
+typedef struct
+{
+    lv_obj_t * pos_x;
+    lv_obj_t * pos_y;
+    lv_obj_t * size_h;
+    lv_obj_t * size_w;
+    lv_obj_t * drag;
+    lv_obj_t * click;
+}setting_attr_handler_t;
 
 /**********************
  *  STATIC PROTOTYPES
@@ -30,6 +42,7 @@ static void getcode_cb(lv_obj_t * obj, lv_event_t ev);
 /**********************
  *  STATIC VARIABLES
  **********************/
+setting_attr_handler_t base_attr;
 
 
 /**********************
@@ -53,6 +66,7 @@ void setting_win_init(lv_obj_t * parent)
     lv_obj_set_event_cb(getcode_btn, getcode_cb);
 
 
+    //POSITION
     lv_obj_t * title = lv_label_create(setting_win, NULL);
     lv_label_set_text(title, "Postion");
 
@@ -60,18 +74,20 @@ void setting_win_init(lv_obj_t * parent)
     lv_label_set_text(lb1, "X:");
     lv_obj_align(lb1, title, LV_ALIGN_OUT_BOTTOM_LEFT,0,15);    
 
-    lv_obj_t * ta = lv_ta_create(setting_win, NULL);
-    lv_ta_set_one_line(ta, true);
-    lv_ta_set_text(ta, "");
-    lv_ta_set_cursor_blink_time(ta, 0);
-    lv_obj_align(ta, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
+    lv_obj_t * ta_x = lv_ta_create(setting_win, NULL);
+    lv_ta_set_one_line(ta_x, true);
+    lv_ta_set_text(ta_x, "");
+    lv_ta_set_cursor_type(ta_x, LV_CURSOR_NONE);
+    lv_ta_set_cursor_blink_time(ta_x, 0);
+    lv_obj_align(ta_x, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0); 
+    base_attr.pos_x = ta_x;
 
-    lv_obj_t * lb_plus = lv_label_create(ta, NULL);
+    lv_obj_t * lb_plus = lv_label_create(ta_x, NULL);
     lv_label_set_text(lb_plus, LV_SYMBOL_PLUS);
-    lv_obj_align(lb_plus, ta, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+    lv_obj_align(lb_plus, ta_x, LV_ALIGN_IN_RIGHT_MID, 0, 0);
     lv_obj_set_click(lb_plus, true);
     // lv_obj_set_event_cb(lb_plus, );
-    lv_obj_t * lb_minus = lv_label_create(ta, lb_plus);
+    lv_obj_t * lb_minus = lv_label_create(ta_x, lb_plus);
     lv_label_set_text(lb_minus, LV_SYMBOL_MINUS" ");
     lv_obj_align(lb_minus, lb_plus, LV_ALIGN_OUT_LEFT_MID, 0, 0);
     lv_obj_set_click(lb_minus, true);
@@ -81,22 +97,26 @@ void setting_win_init(lv_obj_t * parent)
     lv_label_set_text(lb2, "Y:");
     lv_obj_align(lb2, lb1, LV_ALIGN_OUT_BOTTOM_MID,0 , 30);
     
-    lv_obj_t * ta2 = lv_ta_create(setting_win, NULL);
-    lv_ta_set_one_line(ta2, true);
-    lv_ta_set_text(ta2, "");
-    lv_obj_align(ta2, lb2, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
-    lb_plus = lv_label_create(ta2, NULL);
+    lv_obj_t * ta_y = lv_ta_create(setting_win, ta_x);
+    lv_ta_set_one_line(ta_y, true);
+    lv_ta_set_text(ta_y, "");
+    lv_obj_align(ta_y, lb2, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
+    base_attr.pos_y = ta_y;
+
+
+    lb_plus = lv_label_create(ta_y, NULL);
     lv_label_set_text(lb_plus, LV_SYMBOL_PLUS);
-    lv_obj_align(lb_plus, ta2, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+    lv_obj_align(lb_plus, ta_y, LV_ALIGN_IN_RIGHT_MID, 0, 0);
     lv_obj_set_click(lb_plus, true);
     // lv_obj_set_event_cb(lb_plus, );
-    lb_minus = lv_label_create(ta2, lb_plus);
+    lb_minus = lv_label_create(ta_y, lb_plus);
     lv_label_set_text(lb_minus, LV_SYMBOL_MINUS" ");
     lv_obj_align(lb_minus, lb_plus, LV_ALIGN_OUT_LEFT_MID, 0, 0);
     lv_obj_set_click(lb_minus, true);
     // lv_obj_set_event_cb(lb_minus, );
 
 
+    //SIZE
     title = lv_label_create(setting_win, NULL);
     lv_label_set_text(title, "Size");
     lv_obj_align(title, lb2, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 40);
@@ -105,18 +125,20 @@ void setting_win_init(lv_obj_t * parent)
     lv_label_set_text(lb1, "Height:");
     lv_obj_align(lb1, title, LV_ALIGN_OUT_BOTTOM_LEFT,0,15);    
 
-    ta = lv_ta_create(setting_win, NULL);
-    lv_ta_set_one_line(ta, true);
-    lv_ta_set_text(ta, "");
-    lv_ta_set_cursor_blink_time(ta, 0);
-    lv_obj_align(ta, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
+    lv_obj_t * ta_h = lv_ta_create(setting_win, NULL);
+    lv_ta_set_one_line(ta_h, true);
+    lv_ta_set_text(ta_h, "");
+    lv_ta_set_cursor_type(ta_h, LV_CURSOR_HIDDEN);
+    lv_ta_set_cursor_blink_time(ta_h, 0);
+    lv_obj_align(ta_h, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
+    base_attr.size_h = ta_h;
 
-    lb_plus = lv_label_create(ta, NULL);
+    lb_plus = lv_label_create(ta_h, NULL);
     lv_label_set_text(lb_plus, LV_SYMBOL_PLUS);
-    lv_obj_align(lb_plus, ta, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+    lv_obj_align(lb_plus, ta_h, LV_ALIGN_IN_RIGHT_MID, 0, 0);
     lv_obj_set_click(lb_plus, true);
     // lv_obj_set_event_cb(lb_plus, );
-    lb_minus = lv_label_create(ta, lb_plus);
+    lb_minus = lv_label_create(ta_h, lb_plus);
     lv_label_set_text(lb_minus, LV_SYMBOL_MINUS" ");
     lv_obj_align(lb_minus, lb_plus, LV_ALIGN_OUT_LEFT_MID, 0, 0);
     lv_obj_set_click(lb_minus, true);
@@ -125,22 +147,22 @@ void setting_win_init(lv_obj_t * parent)
     lb2 = lv_label_create(setting_win, lb1);
     lv_label_set_text(lb1, "Width: ");
     lv_obj_align(lb1, lb2, LV_ALIGN_OUT_BOTTOM_MID,0 , 30);
-    ta2 = lv_ta_create(setting_win, ta);
-    // lv_ta_set_one_line(ta2, true);
-    // lv_ta_set_text(ta2, "");
-    lv_obj_align(ta2, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
-    lb_plus = lv_label_create(ta2, NULL);
+    lv_obj_t * ta_w = lv_ta_create(setting_win, ta_h);
+    lv_obj_align(ta_w, lb1, LV_ALIGN_OUT_RIGHT_MID, 15, 0);
+    base_attr.size_h = ta_w;
+
+    lb_plus = lv_label_create(ta_w, NULL);
     lv_label_set_text(lb_plus, LV_SYMBOL_PLUS);
-    lv_obj_align(lb_plus, ta2, LV_ALIGN_IN_RIGHT_MID, 0, 0);
+    lv_obj_align(lb_plus, ta_w, LV_ALIGN_IN_RIGHT_MID, 0, 0);
     lv_obj_set_click(lb_plus, true);
     // lv_obj_set_event_cb(lb_plus, );
-    lb_minus = lv_label_create(ta2, lb_plus);
+    lb_minus = lv_label_create(ta_w, lb_plus);
     lv_label_set_text(lb_minus, LV_SYMBOL_MINUS" ");
     lv_obj_align(lb_minus, lb_plus, LV_ALIGN_OUT_LEFT_MID, 0, 0);
     lv_obj_set_click(lb_minus, true);
     // lv_obj_set_event_cb(lb_minus, );
 
-
+    //DRAG && CLICK
     lv_obj_t * cb_drag = lv_cb_create(setting_win, NULL);
     lv_cb_set_text(cb_drag, "Drag");
     lv_obj_align(cb_drag, lb2, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 75);
@@ -149,6 +171,18 @@ void setting_win_init(lv_obj_t * parent)
     lv_cb_set_text(cb_click, "Click");
     lv_obj_align(cb_click, cb_drag, LV_ALIGN_OUT_RIGHT_MID, 20, 0); 
 
+}
+
+void setting_attr_mod(lv_obj_t * obj)
+{
+    lv_coord_t x = lv_obj_get_x(obj);
+    char x_str[8];
+    snprintf(x_str, 8, "%d", x);
+    lv_ta_set_text(base_attr.pos_x, x_str);
+    lv_coord_t y = lv_obj_get_y(obj);
+    char y_str[8];
+    snprintf(y_str, 8, "%d", y);    
+    lv_ta_set_text(base_attr.pos_y, y_str);
 }
 
 /**********************

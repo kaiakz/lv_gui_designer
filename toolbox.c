@@ -7,6 +7,7 @@
  *      INCLUDES
  *********************/
 #include "toolbox.h"
+#include "setting.h"
 #include "dataset.h"
 #include <stdio.h>
 #include <string.h>
@@ -15,19 +16,22 @@
  *      DEFINES
  *********************/
 
-
 /**********************
- *      TYPEDEFS
+ *      EXTERN
  **********************/
 extern lv_obj_t * toolbox_win;
 extern lv_obj_t * tft_win;
+/**********************
+ *      TYPEDEFS
+ **********************/
+
 
 
 /**********************
  *  STATIC PROTOTYPES
  **********************/
 static void create_btn_cb(lv_obj_t * btn, lv_event_t ev);
-static void create_chb_cb(lv_obj_t * btn, lv_event_t ev);
+static void create_cb_cb(lv_obj_t * btn, lv_event_t ev);
 static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev);
 static void create_bar_cb(lv_obj_t * obj, lv_event_t ev);
 static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev);
@@ -74,7 +78,7 @@ void toolbox_win_init(lv_obj_t * parent)
  
     
     list_btn = lv_list_add_btn(list, LV_SYMBOL_OK, "CheckBox");
-    lv_obj_set_event_cb(list_btn, create_chb_cb);
+    lv_obj_set_event_cb(list_btn, create_cb_cb);
     
     list_btn = lv_list_add_btn(list, LV_SYMBOL_LIST, "DDList");
     lv_obj_set_event_cb(list_btn, create_ddlist_cb);
@@ -123,6 +127,7 @@ static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wdeque_pushback(new);
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
         
         widget_info_t * info = (widget_info_t *)malloc(sizeof(widget_info_t));
@@ -133,7 +138,7 @@ static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
 
 }
 
-static void create_chb_cb(lv_obj_t * obj, lv_event_t ev)
+static void create_cb_cb(lv_obj_t * obj, lv_event_t ev)
 {
     (void)obj;
     if(ev == LV_EVENT_CLICKED)
@@ -145,6 +150,7 @@ static void create_chb_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wdeque_pushback(new);
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -183,6 +189,7 @@ static void create_bar_cb(lv_obj_t * obj, lv_event_t ev)
         lv_bar_set_value(new, 100, LV_ANIM_ON);
         wdeque_pushback(new);
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -199,6 +206,7 @@ static void create_led_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -216,6 +224,7 @@ static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev)
 
         wdeque_pushback(new);
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -234,6 +243,7 @@ static void create_line_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -250,6 +260,7 @@ static void create_slider_cb(lv_obj_t * obj, lv_event_t ev)
         }
         wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
+        lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
     }
 }
@@ -259,17 +270,8 @@ static void update_setting(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_DRAG_END)
     {
-        printf("X:%d Y:%d\n", lv_obj_get_x(obj), lv_obj_get_y(obj));
+        setting_attr_mod(obj);
     }
-    // if(ev == LV_EVENT_LONG_PRESSED)
-    // {
-    //     lv_obj_set_hidden(obj, true);
-    //     lv_line_create(tft_win, NULL);
-    // }
-    // if(ev == LV_EVENT_PRESS_LOST)
-    // {
-        
-    // }
 }
 
 static void create_undo(lv_obj_t * obj, lv_event_t ev)
