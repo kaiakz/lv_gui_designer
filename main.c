@@ -17,7 +17,7 @@
 #include "lv_drivers/indev/mouse.h"
 #include "lv_drivers/indev/mousewheel.h"
 #include "lv_drivers/indev/keyboard.h"
-
+#include "interface.h"
 
 /*********************
  *      DEFINES
@@ -64,7 +64,7 @@ int main(int argc, char ** argv)
     /*Initialize the HAL (display, input devices, tick) for LittlevGL*/
     hal_init();
 
-
+    lv_gui_designer();
 
 
     while(1) {
@@ -109,8 +109,8 @@ static void hal_init(void)
 
     /*Create a display buffer*/
     static lv_disp_buf_t disp_buf1;
-    static lv_color_t buf1_1[480*400];
-    lv_disp_buf_init(&disp_buf1, buf1_1, NULL, 480*400);
+    static lv_color_t buf1_1[3840*2160];
+    lv_disp_buf_init(&disp_buf1, buf1_1, NULL, 3840*2160);
 
     /*Create a display*/
     lv_disp_drv_t disp_drv;
