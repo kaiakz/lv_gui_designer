@@ -7,10 +7,10 @@
  *      INCLUDES
  *********************/
 #include "./lvgl/lvgl.h"
+#include <malloc.h>
 #include "setting.h"
 #include "interface.h"
 #include "dataset.h"
-#include <malloc.h>
 #include "gencode.h"
 /*********************
  *      DEFINES

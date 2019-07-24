@@ -5,7 +5,7 @@ CC ?= gcc
 LVGL_DIR ?= ${shell pwd}
 CFLAGS ?= -Wall -Wshadow -Wundef -Wmaybe-uninitialized -O3 -g0 -I$(LVGL_DIR)/
 LDFLAGS ?= -lSDL2 -lm
-BIN = demo
+BIN = lv_gui_designer
 
 
 #Collect the files to compile
