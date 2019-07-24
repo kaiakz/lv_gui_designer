@@ -6,12 +6,12 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "toolbox.h"
-#include "setting.h"
-#include "dataset.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "toolbox.h"
+#include "setting.h"
+#include "dataset.h"
 /*********************
  *      DEFINES
  *********************/

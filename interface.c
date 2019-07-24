@@ -23,8 +23,8 @@ void lv_gui_designer()
     lv_theme_t * th = lv_theme_material_init(150, NULL);
     lv_theme_set_current(th);
     
-    setting_win_init(screen);
     toolbox_win_init(screen); 
+    setting_win_init(screen);
     tft_win_init(screen); 
 }
 

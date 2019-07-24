@@ -9,7 +9,6 @@
 #include "./lvgl/lvgl.h"
 #include <malloc.h>
 #include "setting.h"
-#include "interface.h"
 #include "dataset.h"
 #include "gencode.h"
 /*********************
@@ -42,8 +41,7 @@ static void getcode_cb(lv_obj_t * obj, lv_event_t ev);
 /**********************
  *  STATIC VARIABLES
  **********************/
-setting_attr_handler_t base_attr;
-
+static setting_attr_handler_t base_attr;
 
 /**********************
  *      MACROS

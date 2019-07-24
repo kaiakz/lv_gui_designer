@@ -1,10 +1,10 @@
 /**
- * @file toolbox.h
+ * @file setting.h
  *
  */
 
-#ifndef _TOOLBOX_H_
-#define _TOOLBOX_H_
+#ifndef _SETTING_H_
+#define _SETTING_H_
 
 #ifdef __cplusplus
 extern "C" {
