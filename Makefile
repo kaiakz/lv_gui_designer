@@ -9,7 +9,7 @@ BIN = demo
 
 
 #Collect the files to compile
-MAINSRC = ./main.c ./interface.c ./toolbox.c ./setting.c ./dataset.c
+MAINSRC = ./main.c ./interface.c ./toolbox.c ./setting.c ./dataset.c ./gencode.c
 
 include $(LVGL_DIR)/lvgl/lvgl.mk
 include $(LVGL_DIR)/lv_drivers/lv_drivers.mk

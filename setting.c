@@ -141,21 +141,13 @@ void setting_win_init(lv_obj_t * parent)
     // lv_obj_set_event_cb(lb_minus, );
 
 
-    title = lv_label_create(setting_win, NULL);
-    lv_label_set_text(title, "Drag");
-    lv_obj_align(title, lb2, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 75);
+    lv_obj_t * cb_drag = lv_cb_create(setting_win, NULL);
+    lv_cb_set_text(cb_drag, "Drag");
+    lv_obj_align(cb_drag, lb2, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 75);
 
-    lv_obj_t * sw = lv_sw_create(setting_win, NULL);
-    lv_sw_on(sw, LV_ANIM_ON);
-    lv_obj_align(sw, title, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
-
-    title = lv_label_create(setting_win, NULL);
-    lv_label_set_text(title, "Click");
-    lv_obj_align(title, sw, LV_ALIGN_OUT_RIGHT_MID, 20, 0);
-
-    sw = lv_sw_create(setting_win, NULL);
-    lv_sw_on(sw, LV_ANIM_ON);
-    lv_obj_align(sw, title, LV_ALIGN_OUT_RIGHT_MID, 10, 0);    
+    lv_obj_t * cb_click = lv_cb_create(setting_win, cb_drag);
+    lv_cb_set_text(cb_click, "Click");
+    lv_obj_align(cb_click, cb_drag, LV_ALIGN_OUT_RIGHT_MID, 20, 0); 
 
 }
 
@@ -166,7 +158,7 @@ static void getcode_cb(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        // code_generation();
+        code_generation();
     }
 }
 

@@ -9,6 +9,8 @@
 #include "toolbox.h"
 #include "dataset.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 /*********************
  *      DEFINES
  *********************/
@@ -38,7 +40,7 @@ static void create_undo(lv_obj_t * obj, lv_event_t ev);
 /**********************
  *  STATIC VARIABLES
  **********************/
-
+static int widget_count = 0;
 
 
 /**********************
@@ -115,14 +117,20 @@ static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
     {
         lv_obj_t * new = lv_btn_create(tft_win, NULL);
         lv_label_set_text(lv_label_create(new, NULL), "Button");
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wstack_push(new);
+        wdeque_pushback(new);
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
+        
+        widget_info_t * info = (widget_info_t *)malloc(sizeof(widget_info_t));
+        info->type = WIDGET_TYPE_BTN;
+        sprintf(info->id, "%s_%d", "btn", widget_count++);
+        lv_obj_set_user_data(new, info); 
     }
+
 }
 
 static void create_chb_cb(lv_obj_t * obj, lv_event_t ev)
@@ -131,11 +139,11 @@ static void create_chb_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_cb_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wstack_push(new);
+        wdeque_pushback(new);
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -147,11 +155,11 @@ static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_ddlist_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wstack_push(new);     
+        wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
         lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_t * scrl = lv_page_get_scrl(new);
@@ -166,14 +174,14 @@ static void create_bar_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_bar_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
 
         lv_bar_set_anim_time(new, 10000);
         lv_bar_set_value(new, 100, LV_ANIM_ON);
-        wstack_push(new);
+        wdeque_pushback(new);
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -185,11 +193,11 @@ static void create_led_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_led_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wstack_push(new);     
+        wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -201,12 +209,12 @@ static void create_gauge_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_gauge_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
 
-        wstack_push(new);
+        wdeque_pushback(new);
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -218,13 +226,13 @@ static void create_line_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_line_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
             lv_point_t p[2] = {{LV_DPI, LV_DPI}, {LV_DPI + 10, LV_DPI + 10}};
             lv_line_set_points(new, p, 2);
         }
-        wstack_push(new);     
+        wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -236,11 +244,11 @@ static void create_slider_cb(lv_obj_t * obj, lv_event_t ev)
     if(ev == LV_EVENT_CLICKED)
     {
         lv_obj_t * new = lv_slider_create(tft_win, NULL);
-        if(wstack_top() != NULL)
+        if(wdeque_gettail() != NULL)
         {
-            lv_obj_set_pos(new, lv_obj_get_x(wstack_top()) + 10, lv_obj_get_y(wstack_top()) + 10);
+            lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wstack_push(new);     
+        wdeque_pushback(new);     
         lv_obj_set_drag(new, true);
         lv_obj_set_event_cb(new, update_setting);
     }
@@ -268,10 +276,12 @@ static void create_undo(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        lv_obj_t * last = wstack_pop();
+        lv_obj_t * last = wdeque_popback();
         if(last != NULL)
         {
+            free((widget_info_t *)lv_obj_get_user_data(last));
             lv_obj_del(last);
+            widget_count--;
         }
     }
 }
