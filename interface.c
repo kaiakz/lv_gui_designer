@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "interface.h"
 #include "setting.h"
 #include "toolbox.h"
@@ -31,9 +31,15 @@ void lv_gui_designer()
 void tft_win_init(lv_obj_t * parent)
 {
     tft_win = lv_win_create(parent, NULL);
-    lv_win_set_title(tft_win, "TFT Simulator");
+    lv_coord_t win_width, win_height;
+    win_width = 480;
+    win_height = 320;
+
+    char title[40];
+    snprintf(title, 40, "TFT Simulator  [Size:%dx%d]", win_width, win_height);
     lv_win_set_drag(tft_win, true);
-    lv_obj_set_size(tft_win, 480, 320);
+    lv_obj_set_size(tft_win, win_width, win_height);
+    lv_win_set_title(tft_win, title);
     lv_obj_align(tft_win, NULL, LV_ALIGN_CENTER, 0, 0);
 }
 
