@@ -45,6 +45,7 @@ typedef struct _widget_info_t_
 {
     char id[16];
     widget_type_t type;
+    // lv_obj_t * layer;
     // lv_obj_t * align_to;
     // lv_align_t alian_type;
     
@@ -60,6 +61,9 @@ void wdeque_pushback(lv_obj_t * new_obj);
 lv_obj_t * wdeque_popback(void);
 lv_obj_t * wdeque_gettail(void);
 lv_obj_t * wdeque_traverse(bool reset);
+
+const char * widget_get_type_name(widget_type_t type);
+void widget_set_info(lv_obj_t * obj, widget_type_t t);
 /**********************
  *      MACROS
  **********************/

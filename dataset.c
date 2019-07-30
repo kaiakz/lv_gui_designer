@@ -37,7 +37,12 @@ const char * widget_type_name[10] =
     
 };
 
-
+typedef struct _widget_tree_node_t_
+{
+    lv_obj_t * widget;
+    lv_obj_t * layer;
+    struct _widget_tree_node_t_;
+}widget_tree_node_t;
 
 
 
@@ -145,6 +150,19 @@ lv_obj_t * wdeque_traverse(bool reset)
         wdeque_traverse_sign = wdeque_traverse_sign->next;
     } 
     return data;
+}
+
+const char * widget_get_type_name(widget_type_t type)
+{
+    return widget_type_name[type];
+}
+
+void widget_set_info(lv_obj_t * obj, widget_type_t t)
+{
+    widget_info_t * info = (widget_info_t *)malloc(sizeof(widget_info_t));
+    info->type = t;
+    strncpy(info->id, widget_get_type_name(t), 15);
+    lv_obj_set_user_data(obj, info);
 }
 
 /**********************

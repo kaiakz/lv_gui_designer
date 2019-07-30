@@ -1,4 +1,6 @@
 #include "custom_widget.h"
+#include "dataset.h"
+#include "setting.h"
 
 typedef struct 
 {
@@ -9,16 +11,31 @@ typedef struct
     lv_obj_t * lb_minus;
 }tbox_ext_t;
 
-lv_obj_t * layerview_create(lv_obj_t * par, char * txt)
+typedef struct
+{
+    lv_obj_t * obj;
+    lv_obj_t * layer;
+}selected_block_t;
+
+selected_block_t sel = {NULL, NULL};
+
+static void update_sel_cb(lv_obj_t * obj, lv_event_t ev);
+
+
+lv_obj_t * layerview_create(lv_obj_t * par, lv_obj_t * obj)   //Create by obj's info
 {
     lv_obj_t * item = lv_cont_create(par, NULL);
     lv_cont_set_fit4(item, LV_FIT_FLOOD, LV_FIT_FLOOD, LV_FIT_TIGHT, LV_FIT_TIGHT);
     lv_cont_set_layout(item, LV_LAYOUT_COL_L);
 
-    if(txt != NULL)
+    if(obj != NULL)
     {
+        widget_info_t * info = lv_obj_get_user_data(obj);
         lv_obj_t * item_lb = lv_label_create(item, NULL);
-        lv_label_set_text(item_lb, txt);        
+        lv_label_set_text(item_lb, widget_get_type_name(info->type));
+        lv_obj_set_click(item_lb, true);
+        lv_obj_set_user_data(item_lb, obj);     //Bind label with obj by user_data
+        lv_obj_set_event_cb(item_lb, update_sel_cb);
     }
     return item;
 }
@@ -57,4 +74,26 @@ lv_obj_t * tbox_get_ta(lv_obj_t * tbox)
 {
     tbox_ext_t * ext = lv_obj_get_ext_attr(tbox);
     return ext->ta;
+}
+
+lv_obj_t * layerview_get_sel_obj(void)
+{
+    return sel.obj;
+}
+
+lv_obj_t * layerview_get_sel_layer(void)
+{
+    return sel.layer;
+}
+
+static void update_sel_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    if(ev == LV_EVENT_CLICKED)
+    {
+        sel.obj = lv_obj_get_user_data(obj);    //read what label is binding
+        sel.layer = lv_obj_get_parent(obj);     //label's parent is layer
+        // lb_selected_mod(obj);
+        // printf("%x---%x", sel.obj, sel.layer);
+    }
+
 }

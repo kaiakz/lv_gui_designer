@@ -3,6 +3,8 @@
 #include "interface.h"
 #include "setting.h"
 #include "toolbox.h"
+#include "custom_widget.h"
+#include "dataset.h"
 
 lv_obj_t * screen;
 lv_obj_t * tft_win;
@@ -20,8 +22,8 @@ void lv_gui_designer()
 
     screen = lv_obj_create(lv_disp_get_scr_act(NULL), NULL);
     lv_obj_set_size(screen, hres, vres);
-    lv_theme_t * th = lv_theme_material_init(150, NULL);
-    lv_theme_set_current(th);
+    // lv_theme_t * th = lv_theme_material_init(150, NULL);
+    // lv_theme_set_current(th);
     
     toolbox_win_init(screen); 
     setting_win_init(screen);
@@ -41,6 +43,9 @@ void tft_win_init(lv_obj_t * parent)
     lv_obj_set_size(tft_win, win_width, win_height);
     lv_win_set_title(tft_win, title);
     lv_obj_align(tft_win, NULL, LV_ALIGN_CENTER, 0, 0);
+
+    widget_set_info(tft_win, 0);      //0: obj
+    layerview_create(setting_win, tft_win);
 }
 
 

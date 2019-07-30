@@ -35,10 +35,13 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
-lv_obj_t * layerview_create(lv_obj_t * par, char * txt);
+lv_obj_t * layerview_create(lv_obj_t * par, lv_obj_t * obj);
 
 lv_obj_t * tbox_create(lv_obj_t * par, char * title);
 lv_obj_t * tbox_get_ta(lv_obj_t * tbox);
+
+lv_obj_t * layerview_get_sel_obj(void);
+lv_obj_t * layerview_get_sel_layer(void);
 /**********************
  *      MACROS
  **********************/
