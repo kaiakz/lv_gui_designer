@@ -13,6 +13,7 @@
 #include "dataset.h"
 #include "custom_widget.h"
 #include "gencode.h"
+#include "loadproj.h"
 /*********************
  *      DEFINES
  *********************/
@@ -22,6 +23,7 @@
  *      EXTERN
  **********************/
 extern lv_obj_t * setting_win;
+extern lv_obj_t * tft_win;
 /**********************
  *      TYPEDEFS
  **********************/
@@ -35,17 +37,17 @@ typedef struct
     lv_obj_t * drag;
     lv_obj_t * click;
     
-}setting_attr_handler_t;
+}setting_attr_panel_t;
 
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void getcode_cb(lv_obj_t * obj, lv_event_t ev);
-
+// static void getcode_cb(lv_obj_t * obj, lv_event_t ev);
+static void loadproj_cb(lv_obj_t * obj, lv_event_t ev);
 /**********************
  *  STATIC VARIABLES
  **********************/
-static setting_attr_handler_t base_attr;
+static setting_attr_panel_t base_attr;
 /**********************
  *      MACROS
  **********************/
@@ -63,12 +65,13 @@ void setting_win_init(lv_obj_t * parent)
     lv_page_set_scrl_fit2(lv_win_get_content(setting_win), LV_FIT_FLOOD, LV_FIT_TIGHT);
     lv_page_set_scrl_layout(lv_win_get_content(setting_win), LV_LAYOUT_PRETTY);
 
-    lv_obj_t * getcode_btn = lv_win_add_btn(setting_win, LV_SYMBOL_DOWNLOAD);
-    lv_obj_set_protect(getcode_btn, LV_PROTECT_CLICK_FOCUS);
-    lv_obj_set_event_cb(getcode_btn, getcode_cb);
+    lv_obj_t * win_btn = lv_win_add_btn(setting_win, LV_SYMBOL_DOWNLOAD);
+    lv_obj_set_protect(win_btn, LV_PROTECT_CLICK_FOCUS);
+    // lv_obj_set_event_cb(win_btn, getcode_cb);
 
-
-
+    win_btn = lv_win_add_btn(setting_win, LV_SYMBOL_UPLOAD);
+    lv_obj_set_protect(win_btn, LV_PROTECT_CLICK_FOCUS);
+    lv_obj_set_event_cb(win_btn, loadproj_cb);    
 
 
     //POSITION
@@ -132,11 +135,18 @@ void lb_selected_mod(lv_obj_t * obj)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-static void getcode_cb(lv_obj_t * obj, lv_event_t ev)
+// static void getcode_cb(lv_obj_t * obj, lv_event_t ev)
+// {
+//     if(ev == LV_EVENT_CLICKED)
+//     {
+//         code_generation();
+//     }
+// }
+
+static void loadproj_cb(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        code_generation();
+        load_project(tft_win);
     }
 }
-
