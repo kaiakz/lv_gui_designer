@@ -10,13 +10,13 @@ lv_gui_designer is a drag-and-drop, simple GUI designer built with LittlevGL, an
 * Drag and drop to control the postion of the widget.
 * TFT_simulator can be customized(size), supports mutiple windows.(To do)
 * Modfied attribute(postion, size, click, etc) and style. (Doing)
-* Save project in XML format.
+* Save project in XML format, project can be loaded as live-demo. 
 * XML can be converted to C and Python: includes GUI and Callback. Just add a line "lv_gui_main()" to your code.(Doing)
 
-##Screenshot
+## Screenshot
 Select a parent for a widget:
 ![image](https://github.com/kaiakz/lv_gui_designer/blob/dev/docs/image/treeview.gif)
-Load XML File to live-demo(Beta):
+Load XML File to live-demo(Beta), try to write some tags `<CONTAINER><BTN><LABEL><ARC><DDLIST>, etc`to design your GUI:
 ![image](https://github.com/kaiakz/lv_gui_designer/blob/dev/docs/image/load.gif)
 
 ## Get Start

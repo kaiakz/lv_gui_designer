@@ -51,7 +51,39 @@ static mxml_sax_cb_t sax_cb(mxml_node_t *node, mxml_sax_event_t event, void *dat
         {
             lv_obj_t * obj = lv_led_create(wstack_top(), NULL);
             wstack_push(obj);
-        }        
+        }
+        if(!strcmp(element, "CHECKBOX"))
+        {
+            lv_obj_t * obj = lv_cb_create(wstack_top(), NULL);
+            wstack_push(obj);
+        }
+        if(!strcmp(element, "BAR"))
+        {
+            lv_obj_t * obj = lv_bar_create(wstack_top(), NULL);
+            wstack_push(obj);
+        }
+        if(!strcmp(element, "ROLLER"))
+        {
+            lv_obj_t * obj = lv_roller_create(wstack_top(), NULL);
+            wstack_push(obj);
+        }
+        if(!strcmp(element, "DDLIST"))
+        {
+            lv_obj_t * obj = lv_ddlist_create(wstack_top(), NULL);
+            wstack_push(obj);
+        }
+        if(!strcmp(element, "ARC"))
+        {
+            lv_obj_t * obj = lv_arc_create(wstack_top(), NULL);
+            wstack_push(obj);
+        }
+        if(!strcmp(element, "CONTAINER"))
+        {
+            lv_obj_t * obj = lv_cont_create(wstack_top(), NULL);
+            lv_cont_set_fit(obj, LV_FIT_FLOOD);
+            lv_cont_set_layout(obj, LV_LAYOUT_PRETTY);  //TEST Attribute
+            wstack_push(obj);
+        }
         //Set Attribute
         int i, count;
         for (i = 0, count = mxmlElementGetAttrCount(node); i < count; i++)
@@ -67,7 +99,12 @@ static mxml_sax_cb_t sax_cb(mxml_node_t *node, mxml_sax_event_t event, void *dat
             {
                 lv_coord_t y = atoi(value);
                 lv_obj_set_y(wstack_top(), y);
-            }            
+            }
+            // if(!strcmp(name, "fit"))
+            // {
+            //     atoi(value);
+            //     lv_obj_set_y(wstack_top(), y);
+            // }       
         }
         
     }else if(event == MXML_SAX_ELEMENT_CLOSE)
@@ -91,7 +128,7 @@ static void wstack_pop(void)
     {
         widget_stack_t * tmp = wstack;
         wstack = wstack->next;
-        lv_obj_t * last = tmp->widget;
+        // lv_obj_t * last = tmp->widget;
         free(tmp);
     }
 }
