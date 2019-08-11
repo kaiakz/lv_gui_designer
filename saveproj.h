@@ -1,10 +1,10 @@
 /**
- * @file gencode.h
+ * @file saveproj.h
  *
  */
 
-#ifndef _CUSTOM_WIDGET_H_
-#define _CUSTOM_WIDGET_H_
+#ifndef _SAVEPROJ_H_
+#define _SAVEPROJ_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,14 +35,7 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
-lv_obj_t * layerview_create(lv_obj_t * par, lv_obj_t * obj);
-
-lv_obj_t * tbox_create(lv_obj_t * par, char * title);
-lv_obj_t * tbox_get_ta(lv_obj_t * tbox);
-
-lv_obj_t * layerview_get_sel_obj(void);
-lv_obj_t * layerview_get_sel_layer(void);
-void layerview_del_sel(void);
+void save_project(lv_obj_t * tft_win);
 /**********************
  *      MACROS
  **********************/

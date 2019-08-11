@@ -86,14 +86,25 @@ lv_obj_t * layerview_get_sel_layer(void)
     return sel.layer;
 }
 
-static void update_sel_cb(lv_obj_t * obj, lv_event_t ev)
+void layerview_del_sel(void)
+{
+    if(sel.layer != NULL && sel.obj != NULL)
+    {
+        lv_obj_del(sel.layer);
+        lv_obj_del(sel.obj);
+    }
+    sel.layer = NULL;
+    sel.obj = NULL;
+
+}
+
+static void update_sel_cb(lv_obj_t * label, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        sel.obj = lv_obj_get_user_data(obj);    //read what label is binding
-        sel.layer = lv_obj_get_parent(obj);     //label's parent is layer
-        // lb_selected_mod(obj);
-        // printf("%x---%x", sel.obj, sel.layer);
+        sel.obj = lv_obj_get_user_data(label);    //read what label is binding
+        sel.layer = lv_obj_get_parent(label);     //label's parent is layer
+        lb_selected_mod(sel.obj);
     }
 
 }

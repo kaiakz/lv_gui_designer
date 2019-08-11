@@ -33,8 +33,9 @@ const char * widget_type_name[10] =
     "obj",
     "label",
     "btn",
-    "cb"
-    
+    "cb",
+    "ddlist",
+    ""
 };
 
 typedef struct _widget_tree_node_t_
@@ -164,6 +165,8 @@ void widget_set_info(lv_obj_t * obj, widget_type_t t)
     strncpy(info->id, widget_get_type_name(t), 15);
     lv_obj_set_user_data(obj, info);
 }
+
+
 
 /**********************
  *   STATIC FUNCTIONS

@@ -208,7 +208,14 @@ static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
             lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
         wdeque_pushback(new);
-        lv_obj_set_drag(new, true);
+        if (par != tft_win)
+        {
+            lv_obj_set_drag_parent(new, true);
+        }else
+        {
+            lv_obj_set_drag(new, true);
+        }
+        
         lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_set_event_cb(new, update_setting);
         
@@ -240,7 +247,7 @@ static void create_cb_cb(lv_obj_t * obj, lv_event_t ev)
         lv_obj_set_event_cb(new, update_setting);
 
         widget_set_info(new, WIDGET_TYPE_CB);
-        layerview_create(layerview_get_sel_layer(), new);        
+        layerview_create(layerview_get_sel_layer(), new);   
     }
 }
 
@@ -249,17 +256,28 @@ static void create_ddlist_cb(lv_obj_t * obj, lv_event_t ev)
     (void)obj;
     if(ev == LV_EVENT_CLICKED)
     {
-        lv_obj_t * new = lv_ddlist_create(tft_win, NULL);
+        lv_obj_t * par = layerview_get_sel_obj();
+        if(par == NULL) return;
+        lv_obj_t * new = lv_ddlist_create(par, NULL);
         if(wdeque_gettail() != NULL)
         {
             lv_obj_set_pos(new, lv_obj_get_x(wdeque_gettail()) + 10, lv_obj_get_y(wdeque_gettail()) + 10);
         }
-        wdeque_pushback(new);     
-        lv_obj_set_drag(new, true);
+        wdeque_pushback(new);
+        if (par != tft_win)
+        {
+            lv_obj_set_drag_parent(new, true);
+        }else
+        {
+            lv_obj_set_drag(new, true);
+        }
         lv_obj_set_protect(new, LV_PROTECT_PRESS_LOST);
         lv_obj_t * scrl = lv_page_get_scrl(new);
         lv_obj_set_drag_parent(scrl, true);
         lv_obj_set_event_cb(new, update_setting);
+
+        widget_set_info(new, WIDGET_TYPE_DDLIST);
+        layerview_create(layerview_get_sel_layer(), new);          
     }
 }
 
@@ -372,13 +390,14 @@ static void create_undo(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        lv_obj_t * last = wdeque_popback();
-        if(last != NULL)
-        {
-            free((widget_info_t *)lv_obj_get_user_data(last));
-            lv_obj_del(last);
-            widget_count--;
-        }
+        // lv_obj_t * last = wdeque_popback();
+        // if(last != NULL)
+        // {
+        //     free((widget_info_t *)lv_obj_get_user_data(last));
+        //     lv_obj_del(last);
+        //     widget_count--;
+        // }
+        layerview_del_sel();
     }
 }
 

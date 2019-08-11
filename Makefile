@@ -9,7 +9,7 @@ BIN = lv_gui_designer
 
 
 #Collect the files to compile
-MAINSRC = ./main.c ./interface.c ./toolbox.c ./setting.c ./dataset.c ./gencode.c ./custom_widget.c ./loadproj.c
+MAINSRC = ./main.c ./interface.c ./toolbox.c ./setting.c ./dataset.c ./gencode.c ./custom_widget.c ./loadproj.c ./saveproj.c
 
 include $(LVGL_DIR)/lvgl/lvgl.mk
 include $(LVGL_DIR)/lv_drivers/lv_drivers.mk

@@ -14,6 +14,7 @@
 #include "custom_widget.h"
 #include "gencode.h"
 #include "loadproj.h"
+#include "saveproj.h"
 /*********************
  *      DEFINES
  *********************/
@@ -42,7 +43,7 @@ typedef struct
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-// static void getcode_cb(lv_obj_t * obj, lv_event_t ev);
+static void saveproj_cb(lv_obj_t * obj, lv_event_t ev);
 static void loadproj_cb(lv_obj_t * obj, lv_event_t ev);
 /**********************
  *  STATIC VARIABLES
@@ -67,7 +68,7 @@ void setting_win_init(lv_obj_t * parent)
 
     lv_obj_t * win_btn = lv_win_add_btn(setting_win, LV_SYMBOL_DOWNLOAD);
     lv_obj_set_protect(win_btn, LV_PROTECT_CLICK_FOCUS);
-    // lv_obj_set_event_cb(win_btn, getcode_cb);
+    lv_obj_set_event_cb(win_btn, saveproj_cb);
 
     win_btn = lv_win_add_btn(setting_win, LV_SYMBOL_UPLOAD);
     lv_obj_set_protect(win_btn, LV_PROTECT_CLICK_FOCUS);
@@ -135,13 +136,13 @@ void lb_selected_mod(lv_obj_t * obj)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-// static void getcode_cb(lv_obj_t * obj, lv_event_t ev)
-// {
-//     if(ev == LV_EVENT_CLICKED)
-//     {
-//         code_generation();
-//     }
-// }
+static void saveproj_cb(lv_obj_t * obj, lv_event_t ev)
+{
+    if(ev == LV_EVENT_CLICKED)
+    {
+        save_project(tft_win);
+    }
+}
 
 static void loadproj_cb(lv_obj_t * obj, lv_event_t ev)
 {

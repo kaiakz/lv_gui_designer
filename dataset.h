@@ -23,7 +23,7 @@ extern "C" {
 #endif
 
 // #if USE_LV_
-
+#include <stdbool.h>
 
 /*********************
  *      DEFINES
@@ -38,8 +38,18 @@ typedef enum
     WIDGET_TYPE_LABEL    = 1,
     WIDGET_TYPE_BTN      = 2,
     WIDGET_TYPE_CB       = 3,
+    WIDGET_TYPE_DDLIST   = 4,
     
 }widget_type_t;
+
+typedef struct
+{
+    uint8_t position : 1;
+    uint8_t height : 1;
+    uint8_t width : 1;
+    uint8_t click : 1;
+    uint8_t drag : 1;
+}obj_attr_table_t;
 
 typedef struct _widget_info_t_
 {
@@ -48,7 +58,8 @@ typedef struct _widget_info_t_
     // lv_obj_t * layer;
     // lv_obj_t * align_to;
     // lv_align_t alian_type;
-    
+    obj_attr_table_t attr;
+
 }widget_info_t;
 
 /**********************
