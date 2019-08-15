@@ -104,12 +104,11 @@ void setting_win_init(lv_obj_t * parent)
     base_attr.obj_selected = lv_label_create(setting_win, NULL);
 
     //Layer View
-    title = lv_label_create(setting_win, NULL);
-    lv_label_set_text(title, "[Layer View]");
+    layerview_init(setting_win);
     // lv_obj_t * lav1 = layerview_create(setting_win, "Screen1");
     // lv_obj_t * b = layerview_create(lav1, "Button");
     // layerview_create(b, "Label");
-    // layerview_create(lav1, "Bar"LV_SYMBOL_OK);    
+    // layerview_create(lav1, "Bar"LV_SYMBOL_OK);  
 
 }
 
@@ -140,7 +139,7 @@ static void saveproj_cb(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)
     {
-        save_project(tft_win);
+        // save_project(tft_win);
     }
 }
 

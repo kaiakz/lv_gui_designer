@@ -27,7 +27,7 @@ void lv_gui_designer()
     
     toolbox_win_init(screen); 
     setting_win_init(screen);
-    tft_win_init(screen); 
+    tft_win_init(screen);
 }
 
 void tft_win_init(lv_obj_t * parent)
@@ -44,8 +44,9 @@ void tft_win_init(lv_obj_t * parent)
     lv_win_set_title(tft_win, title);
     lv_obj_align(tft_win, NULL, LV_ALIGN_CENTER, 0, 0);
 
-    widget_set_info(tft_win, 0);      //0: obj
-    layerview_create(setting_win, tft_win);
+    widget_set_info(tft_win, WIDGET_TYPE_OBJ);      //obj
+
+    layerview_add(layerview_get_base(), tft_win);
 }
 
 

@@ -35,7 +35,7 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
-void save_project(lv_obj_t * tft_win);
+void save_project(lv_obj_t * par_layer);
 /**********************
  *      MACROS
  **********************/
