@@ -1,10 +1,10 @@
 /**
- * @file setting.h
+ * @file loadproj.h
  *
  */
 
-#ifndef _SETTING_H_
-#define _SETTING_H_
+#ifndef _LOADPROJ_H_
+#define _LOADPROJ_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,9 +35,7 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
-void setting_win_init(lv_obj_t * parent);
-void setting_attr_mod(lv_obj_t * obj);
-void lb_selected_mod(lv_obj_t * obj);
+void load_project(lv_obj_t * tft_win);
 /**********************
  *      MACROS
  **********************/

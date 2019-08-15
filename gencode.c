@@ -102,15 +102,15 @@ static inline void code_source_head_write(FILE * lv_gui_c_fp)
 
 static void code_source_body_write(FILE * lv_gui_c_fp)
 {
-    fprintf(lv_gui_c_fp, "void %s()\n{\n", gui_main_name);
+    // fprintf(lv_gui_c_fp, "void %s()\n{\n", gui_main_name);
 
-    for (lv_obj_t * i = wdeque_traverse(true); i != NULL; i = wdeque_traverse(false))
-    {
-        src_write_obj_create(i, lv_gui_c_fp);
-    }
+    // for (lv_obj_t * i = wdeque_traverse(true); i != NULL; i = wdeque_traverse(false))
+    // {
+    //     src_write_obj_create(i, lv_gui_c_fp);
+    // }
 
 
-    fputs("\n}\n", lv_gui_c_fp);
+    // fputs("\n}\n", lv_gui_c_fp);
 }
 
 static void src_write_obj_create(lv_obj_t * obj, FILE * lv_gui_c_fp)
