@@ -1,7 +1,7 @@
 # lv_gui_designer
 
 ## New Project [WALV](https://github.com/kaiakz/walv). An online tool.
-### Alibaba Summer of Code : For [AliOS-Things](https://github.com/alibaba/AliOS-Things/)
+### Alibaba Summer of Code 2019 : For [AliOS-Things](https://github.com/alibaba/AliOS-Things/)
 
 ![image](https://github.com/kaiakz/lv_gui_designer/blob/dev/docs/image/sceenshot_lv_gui_designer_1.gif)
 
