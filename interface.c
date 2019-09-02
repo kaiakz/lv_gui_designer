@@ -24,7 +24,7 @@ void lv_gui_designer()
     lv_obj_set_size(screen, hres, vres);
     // lv_theme_t * th = lv_theme_material_init(150, NULL);
     // lv_theme_set_current(th);
-    
+
     toolbox_win_init(screen); 
     setting_win_init(screen);
     tft_win_init(screen);
