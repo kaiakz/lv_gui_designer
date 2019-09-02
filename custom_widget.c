@@ -1,7 +1,7 @@
 #include "custom_widget.h"
 #include "dataset.h"
 #include "setting.h"
-
+#include <stdio.h>
 typedef struct 
 {
     lv_cont_ext_t cont;
@@ -70,7 +70,7 @@ lv_obj_t * layerview_init(lv_obj_t * win)  //This is only a layer
 
 }
 
-//Create a newlayer by a obj on Simulator, use obj's ID to set title
+//Create a newlayer by a obj on Simulator, use obj's TYPE && ID to set title
 lv_obj_t * layerview_add(lv_obj_t * par_layer, lv_obj_t * obj)   
 {
     if(par_layer == NULL)

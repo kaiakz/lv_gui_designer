@@ -15,6 +15,20 @@
 #include "gencode.h"
 #include "loadproj.h"
 #include "saveproj.h"
+
+#if LV_EX_KEYBOARD || LV_EX_MOUSEWHEEL
+#include "lv_drv_conf.h"
+#endif
+
+#if LV_EX_KEYBOARD
+#include "lv_drivers/indev/keyboard.h"
+#endif
+
+#if LV_EX_MOUSEWHEEL
+#include "lv_drivers/indev/mousewheel.h"
+#endif
+
+
 /*********************
  *      DEFINES
  *********************/
@@ -43,6 +57,7 @@ typedef struct
 /**********************
  *  STATIC PROTOTYPES
  **********************/
+static void setting_indev_init(lv_group_t * g);
 static void saveproj_cb(lv_obj_t * obj, lv_event_t ev);
 static void loadproj_cb(lv_obj_t * obj, lv_event_t ev);
 /**********************
@@ -74,14 +89,22 @@ void setting_win_init(lv_obj_t * parent)
     lv_obj_set_protect(win_btn, LV_PROTECT_CLICK_FOCUS);
     lv_obj_set_event_cb(win_btn, loadproj_cb);    
 
+    lv_group_t * g = lv_group_create();
+    setting_indev_init(g);
+
+    //ID
+
 
     //POSITION
     lv_obj_t * title = lv_label_create(setting_win, NULL);
     lv_label_set_text(title, "\n\n\n[Postion]");
     lv_obj_t * cont_x = tbox_create(setting_win, "X: ");
     lv_obj_t * cont_y = tbox_create(setting_win, "Y: ");
-    base_attr.pos_x = tbox_get_ta(cont_x);
-    base_attr.pos_y = tbox_get_ta(cont_y);    
+    // base_attr.pos_x = tbox_get_ta(cont_x);
+    // base_attr.pos_y = tbox_get_ta(cont_y);
+    // lv_group_add_obj(g, base_attr.pos_x);
+    // lv_group_add_obj(g, base_attr.pos_y);
+
 
     //SIZE
     title = lv_label_create(setting_win, NULL);
@@ -90,8 +113,7 @@ void setting_win_init(lv_obj_t * parent)
     lv_obj_t * cont_w = tbox_create(setting_win, "Width:");
     base_attr.size_h = tbox_get_ta(cont_h);
     base_attr.size_w = tbox_get_ta(cont_w);
-
-
+    
     //DRAG && CLICK
     lv_obj_t * cb_drag = lv_cb_create(setting_win, NULL);
     lv_cb_set_text(cb_drag, "Drag     ");
@@ -99,7 +121,7 @@ void setting_win_init(lv_obj_t * parent)
     lv_obj_t * cb_click = lv_cb_create(setting_win, cb_drag);
     lv_cb_set_text(cb_click, "Click    ");
     lv_obj_align(cb_click, cb_drag, LV_ALIGN_OUT_RIGHT_MID, 20, 0); 
-
+    
     //SElECTED
     base_attr.obj_selected = lv_label_create(setting_win, NULL);
 
@@ -135,6 +157,28 @@ void lb_selected_mod(lv_obj_t * obj)
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+static void setting_indev_init(lv_group_t * g)
+{
+#if LV_EX_KEYBOARD
+    lv_indev_drv_t real_kb_drv;
+    lv_indev_drv_init(&real_kb_drv);
+    real_kb_drv.type = LV_INDEV_TYPE_KEYPAD;
+    real_kb_drv.read_cb = keyboard_read;
+    lv_indev_t * real_kb_indev = lv_indev_drv_register(&real_kb_drv);
+    lv_indev_set_group(real_kb_indev, g);
+#endif
+
+#if LV_EX_MOUSEWHEEL
+    lv_indev_drv_t enc_drv;
+    lv_indev_drv_init(&enc_drv);
+    enc_drv.type = LV_INDEV_TYPE_ENCODER;
+    enc_drv.read_cb = mousewheel_read;
+    lv_indev_t * enc_indev = lv_indev_drv_register(&enc_drv);
+    lv_indev_set_group(enc_indev, g);
+#endif
+}
+
+
 static void saveproj_cb(lv_obj_t * obj, lv_event_t ev)
 {
     if(ev == LV_EVENT_CLICKED)

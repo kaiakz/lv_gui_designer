@@ -205,12 +205,9 @@ static void create_btn_cb(lv_obj_t * obj, lv_event_t ev)
     (void)obj;
     if(ev == LV_EVENT_CLICKED)
     {
-        printf("1\n");
         lv_obj_t * par = layerview_get_sel_obj();
-        printf("1.2\n");
         if(par == NULL) return;
         lv_obj_t * new = lv_btn_create(par, NULL);
-        printf("1.3\n");
         // lv_label_set_text(lv_label_create(new, NULL), "Button");
         if(last_widget != NULL)
         {
